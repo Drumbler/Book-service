@@ -10,19 +10,19 @@ def clear():
 
 def display_books():
     clear()
+    if not book_repository.books:
+        print("\nNo books found.")
     for book in book_repository.get_books():
         print(book)
 
 
 def add_book():
     clear()
-    last_id = book_repository.get_books()[-1].book_id
-    new_id = str(int(last_id) + 1)
     try:
         title = input("Enter title: ")
         author = input("Enter author: ")
         year = int(input("Enter publication year: "))
-        book_repository.add_book(new_id, title, author, year)
+        book_repository.add_book(title, author, year)
     except ValueError:
         print("\nInvalid input.")
         return
@@ -106,7 +106,6 @@ def find_book():
     print()
     input("Press any key to continue...")
     clear()
-# добавить поиск по наличию
 
 
 def main():

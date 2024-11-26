@@ -20,7 +20,8 @@ class BookRepository:
 
     def load_books(self):
         if not os.path.exists("database/data.json"):
-            return
+            with open("database/data.json", 'w', encoding='utf-8') as file:
+                json.dump([], file, ensure_ascii=False, indent=4)
 
         with open("database/data.json", 'r', encoding='utf-8') as file:
             self.books = [Book(
@@ -45,16 +46,21 @@ class BookRepository:
             print(book)
 
     # добавить проверку на наличие символов в названии и т.д.
-    def add_book(self, last_id, title, author, year: int):
-        if not last_id or not title or not author:
+    def add_book(self, title, author, year: int):
+        if not title or not author:
             raise ValueError("All fields must be filled")
         if not isinstance(year, int):
             raise ValueError("Year must be a valid integer")
         if year > datetime.now().year:
             raise InvalidYear("Book cannot be from the future")
-        new_book = Book(last_id, title, author, year, BookStatus.IN_STOCK)
+        if self.books:
+            last_id = int(self.books[-1].book_id)
+            new_id = str(last_id + 1)
+        else:
+            new_id = "1"
+        new_book = Book(new_id, title, author, year, BookStatus.IN_STOCK)
         self.books.append(new_book)
-        self.save_books()   # Добавить валидацию на год
+        self.save_books()
 
     def remove_book(self, book_to_remove_id):
         book_to_remove = self.__find_book_by_id(book_to_remove_id)
