@@ -8,3 +8,7 @@ class BookIsMissing(Exception):
 
 class BookIsOnTheShelf(Exception):
     pass
+
+
+class InvalidYear(Exception):
+    pass

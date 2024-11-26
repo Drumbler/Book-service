@@ -18,6 +18,13 @@
         "title": "To Kill a Mockingbird",
         "author": "Harper Lee",
         "year": 1960,
-        "status": "out-of-stock"
+        "status": "in-stock"
+    },
+    {
+        "book_id": "4",
+        "title": "The call of the Ctulhu",
+        "author": "Howard Lovecraft",
+        "year": 1928,
+        "status": "in-stock"
     }
 ]

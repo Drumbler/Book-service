@@ -1,7 +1,7 @@
 import os
 from book import BookStatus
 from book_repo import book_repository
-from exceptions import BookIsMissing, BookIsOnTheShelf, BookNotFound
+from exceptions import BookIsMissing, BookIsOnTheShelf, BookNotFound, InvalidYear
 
 
 def clear():
@@ -9,41 +9,64 @@ def clear():
 
 
 def display_books():
-    print("\n")
+    clear()
     for book in book_repository.get_books():
         print(book)
 
 
 def add_book():
+    clear()
     last_id = book_repository.get_books()[-1].book_id
     new_id = str(int(last_id) + 1)
-    title = input("Enter title: ")
-    author = input("Enter author: ")
-    year = input("Enter publication year: ")
-    book_repository.add_book(new_id, title, author, year)
+    try:
+        title = input("Enter title: ")
+        author = input("Enter author: ")
+        year = int(input("Enter publication year: "))
+        book_repository.add_book(new_id, title, author, year)
+    except ValueError:
+        print("\nInvalid input.")
+        return
+    except InvalidYear:
+        print("\nInvalid year. Book cannot be from the future")
+        return
+    print()
+    print(f"book '{title}' added successfully")
+    print()
+    input("Press any key to continue...")
     clear()
 
 
 def remove_book():
+    clear()
+    display_books()
+    print()
     try:
         book_to_delete_id = int(input("Enter book to delete: "))
     except ValueError:
         print("\nInvalid book id. Please enter a valid integer.")
         return
+    deleted_book = book_repository.get_books()[-1].title
     try:
         book_repository.remove_book(book_to_delete_id)
     except BookNotFound:
         print("\nBook not found.")
+        return
+    print(f"Book '{deleted_book}' successfully deleted")
+    print()
+    input("Press any key to continue...")
+    clear()
 
 
 def alter_book():
-
+    clear()
+    display_books()
     try:
         book_to_alter_id = int(
             input("Enter book id to take/return it to/from shelf: "))
     except ValueError:
         print("\nInvalid book id. Please enter a valid integer.")
         return
+    altered_book = book_repository.get_books()[-1].title
     print("Possible statuses: \n1. 'In-stock'\n2. 'Out-of-stock'")
     status = input("Enter new status: ")
     book_status = {
@@ -61,6 +84,13 @@ def alter_book():
         print("Book is already on the shelf")
     except BookIsMissing:
         print("Book is already taken")
+    if status == BookStatus.IN_STOCK:
+        print(f"Book '{altered_book}' successfully returned")
+    elif status == BookStatus.OUT_OF_STOCK:
+        print(f"Book '{altered_book}' successfully taken")
+    print()
+    input("Press any key to continue...")
+    clear()
 
 
 def find_book():
@@ -70,9 +100,14 @@ def find_book():
     if not books:
         print("No books found.")
         return
+    print("Search results:")
     for book in books:
         print(book)
-# добавить поиск по наличию 
+    print()
+    input("Press any key to continue...")
+    clear()
+# добавить поиск по наличию
+
 
 def main():
     book_repository.load_books()

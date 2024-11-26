@@ -1,7 +1,8 @@
 import json
 import os
 from book import Book, BookStatus
-from exceptions import BookNotFound, BookIsMissing, BookIsOnTheShelf
+from exceptions import BookNotFound, BookIsMissing, BookIsOnTheShelf, InvalidYear
+from datetime import datetime
 
 
 class BookRepository:
@@ -43,10 +44,17 @@ class BookRepository:
         for book in books:
             print(book)
 
-    def add_book(self, last_id, title, author, year): # добавить проверку на наличие символов в названии и т.д.
+    # добавить проверку на наличие символов в названии и т.д.
+    def add_book(self, last_id, title, author, year: int):
+        if not last_id or not title or not author:
+            raise ValueError("All fields must be filled")
+        if not isinstance(year, int):
+            raise ValueError("Year must be a valid integer")
+        if year > datetime.now().year:
+            raise InvalidYear("Book cannot be from the future")
         new_book = Book(last_id, title, author, year, BookStatus.IN_STOCK)
         self.books.append(new_book)
-        self.save_books()
+        self.save_books()   # Добавить валидацию на год
 
     def remove_book(self, book_to_remove_id):
         book_to_remove = self.__find_book_by_id(book_to_remove_id)
@@ -66,11 +74,11 @@ class BookRepository:
 
     def find_book(self, search_query):
         result = []
+        search_lower = search_query.lower()
         for book in self.books:
-            if (search_query.lower() in book.title.lower() or
-                # убрать повторяющиеся search_query.lower()
-                search_query.lower() in book.author.lower() or
-                    str(book.year) == search_query.lower()):  # Добавить валидацию на год
+            if (search_lower in book.title.lower() or
+                search_lower in book.author.lower() or
+                    str(book.year) == search_lower):
                 result.append(book)
         return result
 
