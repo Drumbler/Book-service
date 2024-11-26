@@ -15,7 +15,7 @@ class Book:
         self.status = status
 
     def __str__(self) -> str:
-        return f"Title: {self.book_id}. {self.title}, author: {self.author}, year {self.year}, status: {self.status.value}"
+        return (f"Title: {self.book_id}. {self.title}, author: {self.author}, year {self.year}, status: {self.status.value}")
 
     def update_status(self, new_status):
 

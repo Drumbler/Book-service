@@ -43,7 +43,7 @@ class BookRepository:
         for book in books:
             print(book)
 
-    def add_book(self, last_id, title, author, year):
+    def add_book(self, last_id, title, author, year): # добавить проверку на наличие символов в названии и т.д.
         new_book = Book(last_id, title, author, year, BookStatus.IN_STOCK)
         self.books.append(new_book)
         self.save_books()
