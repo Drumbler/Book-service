@@ -89,7 +89,7 @@ def alter_book():
     except ValueError:  # Обработка ошибки в случае когда пользователь ввел не соответствующее integer значение
         print("\nInvalid book id. Please enter a valid integer.")
         return
-    print("Possible statuses: \n1. 'In-stock'\n2. 'Out-of-stock'")
+    print("Possible statuses: \n1. 'Return to the shelf'\n2. 'Take from the shelf'")
     status = input("Enter new status: ")
     book_status = {
         "1": BookStatus.IN_STOCK,
@@ -145,7 +145,7 @@ def main():
         print("1. Display all books")
         print("2. Add a new book")
         print("3. Remove a book")
-        print("4. Take a book(change the status of the book)")
+        print("4. Take a book/return a book(change the status of the book)")
         print("5. Find a book")
         print("0. Exit")
         print()

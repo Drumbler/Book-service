@@ -2,6 +2,9 @@ import enum
 
 
 class BookStatus(enum.Enum):
+    '''
+    Enum для статуса книги: наличие на складе или нет.
+    '''
     IN_STOCK = "in-stock"
     OUT_OF_STOCK = "out-of-stock"
 
@@ -10,7 +13,6 @@ class Book:
     '''
     Модель "Book", в ней хранятся все данные добавленной книги
     '''
-
     def __init__(self, book_id: int, title: str, author: str, year: int, status: BookStatus):
         self.book_id = book_id
         self.title = title
