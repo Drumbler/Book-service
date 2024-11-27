@@ -34,12 +34,12 @@ def add_book():
     '''
     clear()
     title = input("Enter title: ")
-    if title == "":
+    if not title:
         print("\nTitle cannot be empty.\n")
         input("Press enter to continue...")
         return
     author = input("Enter author: ")
-    if author == "":
+    if not author:
         print("\nAuthor cannot be empty.\n")
         input("Press enter to continue...")
         return
