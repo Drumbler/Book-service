@@ -41,4 +41,3 @@ class Book:
             "year": self.year,
             "status": self.status.value,
         }
-

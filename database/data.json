@@ -1,27 +1,27 @@
 [
     {
-        "book_id": "1",
+        "book_id": 1,
         "title": "War and Peace",
         "author": "Lev Tolstoy",
         "year": 1869,
         "status": "in-stock"
     },
     {
-        "book_id": "2",
+        "book_id": 2,
         "title": "Pride and Prejudice",
         "author": "Jane Austen",
         "year": 1813,
         "status": "in-stock"
     },
     {
-        "book_id": "3",
+        "book_id": 3,
         "title": "To Kill a Mockingbird",
         "author": "Harper Lee",
         "year": 1960,
         "status": "in-stock"
     },
     {
-        "book_id": "4",
+        "book_id": 4,
         "title": "The call of the Ctulhu",
         "author": "Howard Lovecraft",
         "year": 1928,

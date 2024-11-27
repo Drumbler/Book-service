@@ -33,10 +33,25 @@ def add_book():
     The book is added with the status "In stock" ("in-stock")
     '''
     clear()
+    title = input("Enter title: ")
+    if title == "":
+        print("\nTitle cannot be empty.\n")
+        input("Press enter to continue...")
+        return
+    author = input("Enter author: ")
+    if author == "":
+        print("\nAuthor cannot be empty.\n")
+        input("Press enter to continue...")
+        return
     try:
-        title = input("Enter title: ")
-        author = input("Enter author: ")
         year = int(input("Enter publication year: "))
+    except ValueError:
+        print("\nInvalid input.")
+        return
+    if year < 0:
+        print("\nPlease enter a valid year.")
+        return
+    try:
         book_repository.add_book(title, author, year)
     except ValueError:
         print("\nInvalid input.")
@@ -47,7 +62,7 @@ def add_book():
     print()
     print(f"book '{title}' added successfully")
     print()
-    input("Press any key to continue...")
+    input("Press enter to continue...")
     clear()
 
 
@@ -61,7 +76,7 @@ def remove_book():
     display_books()
     print()
     try:
-        book_to_delete_id = int(input("Enter book to delete: "))
+        book_to_delete_id = int(input("Enter book id to delete: "))
     except ValueError:
         print("\nInvalid book id. Please enter a valid integer.")
         return
@@ -72,7 +87,7 @@ def remove_book():
         return
     print(f"Book '{deleted_book.title}' successfully deleted")
     print()
-    input("Press any key to continue...")
+    input("Press enter to continue...")
     clear()
 
 
@@ -112,7 +127,7 @@ def alter_book():
     elif status == BookStatus.OUT_OF_STOCK:
         print(f"Book '{altered_book.title}' successfully taken")
     print()
-    input("Press any key to continue...")
+    input("Press enter to continue...")
     clear()
 
 
@@ -120,6 +135,7 @@ def find_book():
     '''
     Function to search for books based on a given query
     '''
+    clear()
     search_query = input("Enter a search query: ")
     print("\n")
     books = book_repository.find_book(search_query)
@@ -130,14 +146,14 @@ def find_book():
     for book in books:
         print(book)
     print()
-    input("Press any key to continue...")
+    input("Press enter to continue...")
     clear()
 
 
 def main():
     '''
     Main loop, main menu, where you can choose one of 6 actions
-    All added books are instances of 1 book
+    All added books will have status 'in-stock' by default
     '''
     book_repository.load_books()
     while True:
