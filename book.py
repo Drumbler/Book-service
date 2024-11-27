@@ -3,7 +3,7 @@ import enum
 
 class BookStatus(enum.Enum):
     '''
-    Enum для статуса книги: наличие на складе или нет.
+    Enum for book status: availability on the shelf or not.
     '''
     IN_STOCK = "in-stock"
     OUT_OF_STOCK = "out-of-stock"
@@ -11,8 +11,9 @@ class BookStatus(enum.Enum):
 
 class Book:
     '''
-    Модель "Book", в ней хранятся все данные добавленной книги
+    Model "Book", where all added book data is stored
     '''
+
     def __init__(self, book_id: int, title: str, author: str, year: int, status: BookStatus):
         self.book_id = book_id
         self.title = title
@@ -25,13 +26,13 @@ class Book:
 
     def update_status(self, new_status: BookStatus):
         '''
-        Метод изменяет статус книги на новый
+        Method changes the book status to a new one
         '''
         self.status = new_status
 
     def to_dict(self) -> dict:
         '''
-        Метод возвращает словарь с данными книги
+        Method returns a dictionary with book data
         '''
         return {
             "book_id": self.book_id,
@@ -40,3 +41,4 @@ class Book:
             "year": self.year,
             "status": self.status.value,
         }
+
