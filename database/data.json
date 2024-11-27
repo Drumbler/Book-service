@@ -1,9 +1,9 @@
 [
     {
-        "book_id": "1",
+        "book_id": 0,
         "title": "asd",
         "author": "asd",
-        "year": 1999,
+        "year": 1233,
         "status": "in-stock"
     }
 ]

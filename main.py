@@ -5,18 +5,33 @@ from exceptions import BookIsMissing, BookIsOnTheShelf, BookNotFound, InvalidYea
 
 
 def clear():
+    '''
+    Функция для очистки окна консоли
+    '''
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def display_books():
+    '''
+    Функция вывода всех книг из библиотеки
+    Если в библиотеке нет книг, выводится сообщение о том, что нет ни одной
+    Выводится список книг с их информацией
+    '''
     clear()
-    if not book_repository.books:
-        print("\nNo books found.")
+    found = False
     for book in book_repository.get_books():
         print(book)
+        found = True
+    if not found:
+        print("\nNo books found.")
 
 
 def add_book():
+    '''
+    Функция добавления книги в библиотеку
+    Пользователю требуется ввести: название книги, автора и год выпуска
+    Книга добавляется со статусом "В наличии"("in-stock")
+    '''
     clear()
     try:
         title = input("Enter title: ")
@@ -37,7 +52,12 @@ def add_book():
 
 
 def remove_book():
+    '''
+    Функция удаления книги из библиотеки 
+    Пользователю требуется ввести только ID книги
+    '''
     clear()
+    # Для удобвства использования перед выбором ID книги выводится список всех книг
     display_books()
     print()
     try:
@@ -45,28 +65,30 @@ def remove_book():
     except ValueError:
         print("\nInvalid book id. Please enter a valid integer.")
         return
-    deleted_book = book_repository.get_books()[-1].title
     try:
-        book_repository.remove_book(book_to_delete_id)
-    except BookNotFound:
+        deleted_book = book_repository.remove_book(book_to_delete_id)
+    except BookNotFound:  # Обработка ошибки в случае когда пользователь ввел не существующий ID
         print("\nBook not found.")
         return
-    print(f"Book '{deleted_book}' successfully deleted")
+    print(f"Book '{deleted_book.title}' successfully deleted")
     print()
     input("Press any key to continue...")
     clear()
 
 
 def alter_book():
+    '''
+    Функция изменения статуса книги
+    ("в наличии"/"нет в наличии")
+    '''
     clear()
     display_books()
     try:
         book_to_alter_id = int(
             input("Enter book id to take/return it to/from shelf: "))
-    except ValueError:
+    except ValueError:  # Обработка ошибки в случае когда пользователь ввел не соответствующее integer значение
         print("\nInvalid book id. Please enter a valid integer.")
         return
-    altered_book = book_repository.get_books()[-1].title
     print("Possible statuses: \n1. 'In-stock'\n2. 'Out-of-stock'")
     status = input("Enter new status: ")
     book_status = {
@@ -77,23 +99,27 @@ def alter_book():
         print("\nInvalid status. Please enter a valid integer (1 or 2).")
         return
     try:
-        book_repository.alter_book(book_to_alter_id, book_status)
-    except BookNotFound:
+        altered_book = book_repository.alter_book(
+            book_to_alter_id, book_status)
+    except BookNotFound:  # Обработка ошибки если переданный ID не соответствует ни одной книге в памяти
         print("Book not found")
-    except BookIsOnTheShelf:
+    except BookIsOnTheShelf:  # Обработка ошибки если книгу пытаются повторно вернуть на полку
         print("Book is already on the shelf")
-    except BookIsMissing:
+    except BookIsMissing:  # Обработка ошибки если книгу пытаются повторно взять с полки
         print("Book is already taken")
     if status == BookStatus.IN_STOCK:
-        print(f"Book '{altered_book}' successfully returned")
+        print(f"Book '{altered_book.title}' successfully returned")
     elif status == BookStatus.OUT_OF_STOCK:
-        print(f"Book '{altered_book}' successfully taken")
+        print(f"Book '{altered_book.title}' successfully taken")
     print()
     input("Press any key to continue...")
     clear()
 
 
 def find_book():
+    '''
+    Функция поиска книг по заданному запросу
+    '''
     search_query = input("Enter a search query: ")
     print("\n")
     books = book_repository.find_book(search_query)
@@ -109,6 +135,10 @@ def find_book():
 
 
 def main():
+    '''
+    Главный цикл, главное меню, в котором можно выбрать одно из 6 действий
+    Все добавленные книги имеются в 1 экземпляре
+    '''
     book_repository.load_books()
     while True:
         print()
